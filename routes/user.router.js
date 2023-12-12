@@ -85,7 +85,7 @@ userRouter.get('/verifyemail', async (req, res) => {
     // Mark the user account as verified in your database
     user.verified = true;
     await user.save()
-    res.redirect(`http://localhost:3000/`)
+    res.redirect(`https://6578a8bb5dc9200d2e3f2bd9--friendly-capybara-69cc7c.netlify.app/`)
   } else {
     res.send('Invalid or expired verification token');
   }
@@ -138,10 +138,10 @@ userRouter.get("/auth/google",passport.authenticate("google", { scope: ["profile
     const isPresent = await usermodel.findOne({ email: req.user.email });
     if (isPresent) {
       
-              res.redirect(`http://localhost:3000/home`)
+              res.redirect(`https://6578a8bb5dc9200d2e3f2bd9--friendly-capybara-69cc7c.netlify.app/home`)
     } else {
       
-              res.redirect(`http://localhost:3000/home`)
+              res.redirect(`https://6578a8bb5dc9200d2e3f2bd9--friendly-capybara-69cc7c.netlify.app/home`)
     }
   }
 );
