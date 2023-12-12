@@ -47,7 +47,7 @@ userRouter.post("/sign", async (req, res) => {
 
         // email to verify
 
-        const verificationLink = `http://localhost:9090/user/verifyemail?token=${verificationToken}`;
+        const verificationLink = `https://blushing-hospital-gown-foal.cyclic.app/user/verifyemail?token=${verificationToken}`;
         const mailOptions = {
           from: 'jainpankaj0987@gmail.com',
           to: email,
