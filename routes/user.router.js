@@ -47,7 +47,7 @@ userRouter.post("/sign", async (req, res) => {
 
         // email to verify
 
-        const verificationLink = `https://blushing-hospital-gown-foal.cyclic.app/user/verifyemail?token=${verificationToken}`;
+        const verificationLink = `https://relieved-mite-dirndl.cyclic.app/user/verifyemail?token=${verificationToken}`;
         const mailOptions = {
           from: 'jainpankaj0987@gmail.com',
           to: email,
@@ -85,7 +85,7 @@ userRouter.get('/verifyemail', async (req, res) => {
     // Mark the user account as verified in your database
     user.verified = true;
     await user.save()
-    res.redirect(`https://cynocodebase.vercel.app/`)
+    res.redirect(`https://cynocodebase.vercel.app/home`)
   } else {
     res.send('Invalid or expired verification token');
   }
@@ -149,7 +149,7 @@ userRouter.get("/auth/google/callback", passport.authenticate("google", { failur
       });
 
      
-      res.redirect(`https://6578a8bb5dc9200d2e3f2bd9--friendly-capybara-69cc7c.netlify.app/home`)
+      res.redirect(`https://cynocodebase.vercel.app/home`)
     }
   }
 );
