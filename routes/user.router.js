@@ -22,13 +22,13 @@ const transporter = nodemailer.createTransport({
 });
 
 userRouter.post("/sign", async (req, res) => {
-  const { email, name, password,Confrimpassword,number } = req.body
+  const { email, name, password, Confrimpassword, number } = req.body
   try {
-    if(!email || !name || !password || !Confrimpassword || !number){
-       return  res.send({ "ok": false, "msg": "please fill all field " });
+    if (!email || !name || !password || !Confrimpassword || !number) {
+      return res.send({ "ok": false, "msg": "please fill all field " });
     }
-    if(Confrimpassword !== password){
-      return  res.send({ "ok": false, "msg": "please fill same password " });
+    if (Confrimpassword !== password) {
+      return res.send({ "ok": false, "msg": "please fill same password " });
     }
     let presentUser = await usermodel.findOne({ email })
 
@@ -41,7 +41,7 @@ userRouter.post("/sign", async (req, res) => {
           res.send({ "ok": false, "err": "Something went wrong while hashing" });
         }
         const verificationToken = await jwt.sign({ email }, process.env.JWT_SECRET)
-        const user = new usermodel({ name, email, password: hash, verificationToken,number });
+        const user = new usermodel({ name, email, password: hash, verificationToken, number });
         await user.save();
 
 
@@ -63,13 +63,13 @@ userRouter.post("/sign", async (req, res) => {
             // Handle error sending email
           } else {
             console.log('Email sent: ' + info.response);
-            res.send({"ok":true, msg: "Check the mail " })
+            res.send({ "ok": true, msg: "Check the mail " })
             // Handle successful email sending
           }
         })
       });
     }
-   
+
 
 
   } catch (err) {
@@ -93,11 +93,11 @@ userRouter.get('/verifyemail', async (req, res) => {
 
 userRouter.post("/login", async (req, res) => {
   try {
- 
+
     const { email, password } = req.body;
-    if(!email  || !password){
-      return  res.send({ "ok": false, "msg": "please fill all field " });
-   }
+    if (!email || !password) {
+      return res.send({ "ok": false, "msg": "please fill all field " });
+    }
     const user = await usermodel.findOne({ email });
     // console.log(user);
     if (!user) {
@@ -121,9 +121,9 @@ userRouter.post("/login", async (req, res) => {
             res.send({ "ok": false, "msg": "Wrong Credentials" });
           }
         });
-      }else{
-       res.send({ "ok": false, "msg": "Your email is not verified" });
-          
+      } else {
+        res.send({ "ok": false, "msg": "Your email is not verified" });
+
       }
     }
   } catch (err) {
@@ -131,17 +131,25 @@ userRouter.post("/login", async (req, res) => {
   }
 });
 
-userRouter.get("/auth/google",passport.authenticate("google", { scope: ["profile", "email"] }));
-  userRouter.get("/auth/google/callback",passport.authenticate("google", {failureRedirect: "/login",session: false}),
+userRouter.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+userRouter.get("/auth/google/callback", passport.authenticate("google", { failureRedirect: "/login", session: false }),
   async function (req, res) {
     //in this request object you can get details of the user that we set in google.auth.js file
     const isPresent = await usermodel.findOne({ email: req.user.email });
     if (isPresent) {
-      
-              res.redirect(`https://6578a8bb5dc9200d2e3f2bd9--friendly-capybara-69cc7c.netlify.app/home`)
+      let token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+        expiresIn: "30m",
+      });
+
+   
+      res.redirect(`https://6578a8bb5dc9200d2e3f2bd9--friendly-capybara-69cc7c.netlify.app/home`)
     } else {
-      
-              res.redirect(`https://6578a8bb5dc9200d2e3f2bd9--friendly-capybara-69cc7c.netlify.app/home`)
+      let token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+        expiresIn: "30m",
+      });
+
+     
+      res.redirect(`https://6578a8bb5dc9200d2e3f2bd9--friendly-capybara-69cc7c.netlify.app/home`)
     }
   }
 );
