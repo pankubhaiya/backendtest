@@ -85,7 +85,7 @@ userRouter.get('/verifyemail', async (req, res) => {
     // Mark the user account as verified in your database
     user.verified = true;
     await user.save()
-    res.redirect(`https://6578a8bb5dc9200d2e3f2bd9--friendly-capybara-69cc7c.netlify.app/`)
+    res.redirect(`https://cynocodebase.vercel.app/`)
   } else {
     res.send('Invalid or expired verification token');
   }
@@ -142,7 +142,7 @@ userRouter.get("/auth/google/callback", passport.authenticate("google", { failur
       });
 
    
-      res.redirect(`https://6578a8bb5dc9200d2e3f2bd9--friendly-capybara-69cc7c.netlify.app/home`)
+      res.redirect(`https://cynocodebase.vercel.app/home`)
     } else {
       let token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
         expiresIn: "30m",
